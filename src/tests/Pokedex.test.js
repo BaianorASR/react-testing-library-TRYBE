@@ -1,4 +1,4 @@
-import { cleanup, screen, within } from '@testing-library/react';
+import { cleanup, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
@@ -39,10 +39,20 @@ describe('Teste do componente <Pokedex />', () => {
     expect(allPokemons).toHaveLength(1);
   });
   test('Verifica se exite os butões de filtragem', () => {
-    const app = renderWithRouter(<App />);
-    const NUMBER = 8;
-    const div = app.container.querySelector('.pokedex-buttons-panel');
-    const btn = within(div).getAllByRole('button');
+    const { getAllByTestId } = renderWithRouter(<App />);
+    const NUMBER = 7;
+    const btn = getAllByTestId('pokemon-type-button');
+    const types = ['Electric', 'Fire', 'Bug', 'Poison', 'Psychic', 'Normal', 'Dragon'];
     expect(btn).toHaveLength(NUMBER);
+    btn.forEach((each, index) => {
+      expect(each).toHaveTextContent(types[index]);
+    });
+  });
+  test('Verifica o comportamento do botão all', () => {
+    const { getByRole } = renderWithRouter(<App />);
+    const all = getByRole('button', { name: /all/i });
+    expect(all).toBeInTheDocument();
+    userEvent.click(all);
+    expect(all).toBeInTheDocument();
   });
 });
