@@ -1,23 +1,25 @@
-import React from 'react';
+import './pokemon-details.css';
+
 import PropTypes from 'prop-types';
+import React from 'react';
 
 import { isPokemonFavoriteByIdType, pokemonType } from '../types';
 import Pokemon from './Pokemon';
-
-import './pokemon-details.css';
 
 class PokemonDetails extends React.Component {
   static renderHabitat({ foundAt, name }) {
     return (
       <section>
-        <h2>{ `Game Locations of ${name}` }</h2>
+        <h2>{`Game Locations of ${name}`}</h2>
         <div className="pokemon-habitat">
-          { foundAt.map(({ location, map }) => (
-            <div key={ location }>
-              <img src={ `${map}` } alt={ `${name} location` } />
-              <p><em>{ location }</em></p>
+          {foundAt.map(({ location, map }) => (
+            <div key={location}>
+              <img src={`${map}`} alt={`${name} location`} />
+              <p>
+                <em>{location}</em>
+              </p>
             </div>
-          )) }
+          ))}
         </div>
       </section>
     );
@@ -26,8 +28,8 @@ class PokemonDetails extends React.Component {
   static renderSummary({ summary }) {
     return (
       <section>
-        <h2>{ `Summary` }</h2>
-        <p>{ `${summary}` }</p>
+        <h2>{`Summary`}</h2>
+        <p>{`${summary}`}</p>
       </section>
     );
   }
@@ -50,13 +52,13 @@ class PokemonDetails extends React.Component {
     return (
       <form className="favorite-form">
         <label htmlFor="favorite">
-          { `Pokémon favoritado?` }
+          {`Pokémon favoritado?`}
           <input
             type="checkbox"
             id="favorite"
-            checked={ isFavorite }
-            onChange={
-              ({ target: { checked } }) => onUpdateFavoritePokemons(pokemonId, checked)
+            checked={isFavorite}
+            onChange={({ target: { checked } }) =>
+              onUpdateFavoritePokemons(pokemonId, checked)
             }
           />
         </label>
@@ -68,7 +70,9 @@ class PokemonDetails extends React.Component {
     const { renderHabitat, renderSummary } = PokemonDetails;
     const { renderFavoriteInput } = this;
     const {
-      match: { params: { id } },
+      match: {
+        params: { id },
+      },
       isPokemonFavoriteById,
     } = this.props;
 
@@ -77,15 +81,11 @@ class PokemonDetails extends React.Component {
 
     return (
       <section className="pokemon-details">
-        <h2>{ `${pokemon.name} Details` }</h2>
-        <Pokemon
-          pokemon={ pokemon }
-          showDetailsLink={ false }
-          isFavorite={ isFavorite }
-        />
-        { renderSummary(pokemon) }
-        { renderHabitat(pokemon) }
-        { renderFavoriteInput(pokemon.id, isFavorite) }
+        <h2>{`${pokemon.name} Details`}</h2>
+        <Pokemon pokemon={pokemon} showDetailsLink={false} isFavorite={isFavorite} />
+        {renderSummary(pokemon)}
+        {renderHabitat(pokemon)}
+        {renderFavoriteInput(pokemon.id, isFavorite)}
       </section>
     );
   }
