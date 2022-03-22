@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 
 import Pokedex from '../components/Pokedex';
-import { isPokemonFavoriteById, pokemons } from '../services/mocks';
+import { isPokemonFavoriteById, pokemons } from '../services/mocks/MOCK';
 import renderWithRouter from './helpers/renderWithRouters';
 
 describe('Teste do componente <Pokedex />', () => {
