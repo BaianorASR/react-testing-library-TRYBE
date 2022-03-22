@@ -1,29 +1,26 @@
-import { cleanup, screen } from '@testing-library/react';
+import { cleanup, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import Pokedex from '../components/Pokedex';
-import { isPokemonFavoriteById, pokemons } from '../services/mocks/MOCK';
+import App from '../App';
 import renderWithRouter from './helpers/renderWithRouters';
 
 describe('Teste do componente <Pokedex />', () => {
-  beforeEach(() => {
-    renderWithRouter(
-      <Pokedex isPokemonFavoriteById={ isPokemonFavoriteById } pokemons={ pokemons } />,
-    );
-  });
   afterEach(() => {
     cleanup();
   });
   test('Verifica se na pagina tem o H2 correto', () => {
+    renderWithRouter(<App />);
     const title = screen.getByRole('heading', { name: /Encountered pokémons/i });
     expect(title).toBeInTheDocument();
   });
   test('Verifica se tem o botão proximo pokemon', () => {
+    renderWithRouter(<App />);
     const button = screen.getByRole('button', { name: /Próximo pokémon/i });
     expect(button).toBeInTheDocument();
   });
   test('Verifica se ao clicar no botao outro pokemom é mostrado', async () => {
+    renderWithRouter(<App />);
     const button = screen.getByRole('button', {
       name: /próximo pokémon/i,
     });
@@ -36,8 +33,16 @@ describe('Teste do componente <Pokedex />', () => {
     }
   });
   test('Verifica se apenas um pokemon é mostrado', () => {
+    renderWithRouter(<App />);
     const allPokemons = screen.getAllByTestId('pokemon-name');
 
     expect(allPokemons).toHaveLength(1);
+  });
+  test('Verifica se exite os butões de filtragem', () => {
+    const app = renderWithRouter(<App />);
+    const NUMBER = 8;
+    const div = app.container.querySelector('.pokedex-buttons-panel');
+    const btn = within(div).getAllByRole('button');
+    expect(btn).toHaveLength(NUMBER);
   });
 });
