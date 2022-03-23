@@ -1,52 +1,37 @@
-import { screen } from '@testing-library/react';
+import { cleanup, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { createMemoryHistory } from 'history';
 import React from 'react';
 
 import Pokemon from '../components/Pokemon';
+import mock from '../data';
 import renderWithRouter from './helpers/renderWithRouters';
 
-const mock = {
-  id: 25,
-  name: 'Pikachu',
-  type: 'Electric',
-  averageWeight: {
-    value: '6.0',
-    measurementUnit: 'kg',
-  },
-  image: 'https://cdn2.bulbagarden.net/upload/b/b2/Spr_5b_025_m.png',
-  moreInfo: 'https://bulbapedia.bulbagarden.net/wiki/Pikachu_(Pok%C3%A9mon)',
-  foundAt: [
-    {
-      location: 'Kanto Viridian Forest',
-      map: 'https://cdn2.bulbagarden.net/upload/0/08/Kanto_Route_2_Map.png',
-    },
-    {
-      location: 'Kanto Power Plant',
-      map: 'https://cdn2.bulbagarden.net/upload/b/bd/Kanto_Celadon_City_Map.png',
-    },
-  ],
-};
-
-describe('Teste component Pokemon', () => {
-  test('Verifica alguma poha ai', () => {
-    renderWithRouter(<Pokemon isFavorite pokemon={ mock } />);
-    const img = screen.getByAltText(`${mock.name} sprite`);
-    expect(img).toBeDefined();
-    expect(img).toHaveAttribute('src', mock.image);
+describe('Teste component <Pokemon />', () => {
+  let history = createMemoryHistory();
+  beforeEach(() => {
+    const { history: hist } = renderWithRouter(<Pokemon isFavorite pokemon={mock[0]} />);
+    history = hist;
   });
-  test('Verifica alguma poha ai', () => {
-    renderWithRouter(<Pokemon isFavorite pokemon={ mock } />);
-    const img = screen.getByAltText(`${mock.name} is marked as favorite`);
+  afterEach(() => {
+    cleanup();
+  });
+
+  test('Verifica se o sprite do pokemon é o mesmo da api', () => {
+    const img = screen.getByAltText(`${mock[0].name} sprite`);
+    expect(img).toBeDefined();
+    expect(img).toHaveAttribute('src', mock[0].image);
+  });
+  test('Verifica se o icone de favorito é mostrado', () => {
+    const img = screen.getByAltText(`${mock[0].name} is marked as favorite`);
     expect(img).toBeDefined();
     expect(img).toHaveAttribute('src', '/star-icon.svg');
   });
-  test('Verifica se mostra o Type', () => {
-    renderWithRouter(<Pokemon isFavorite pokemon={ mock } />);
+  test('Verifica se mostra o Type do pokemon atual', () => {
     const type = screen.getByTestId('pokemon-type');
-    expect(type).toHaveTextContent(mock.type);
+    expect(type).toHaveTextContent(mock[0].type);
   });
-  test('Link', () => {
-    const { history } = renderWithRouter(<Pokemon isFavorite pokemon={ mock } />);
+  test('Verifica se o link esta redirecionando para a rota correta', () => {
     const link = screen.getByRole('link');
     expect(link).toBeInTheDocument();
     userEvent.click(link);

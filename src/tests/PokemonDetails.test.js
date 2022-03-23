@@ -26,8 +26,8 @@ const mock = {
     },
   ],
   summary:
-    'This intelligent Pokémon roasts hard berries with'
-    + ' electricity to make them tender enough to eat.',
+    'This intelligent Pokémon roasts hard berries with' +
+    ' electricity to make them tender enough to eat.',
 };
 
 describe('Teste do component <PokemonDetails />', () => {

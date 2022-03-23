@@ -1,14 +1,14 @@
+import { screen } from '@testing-library/react';
 import React from 'react';
 
 import NotFound from '../components/NotFound';
 import renderWithRouter from './helpers/renderWithRouters';
 
-describe('Teste do component', () => {
+describe('Teste do component <NotFound />', () => {
   test('Verifica se a mensagem correta é exibida', () => {
-    const { getByRole } = renderWithRouter(<NotFound />);
-    const title = getByRole('heading', {
+    renderWithRouter(<NotFound />);
+    const title = screen.getByRole('heading', {
       name: /Page requested not found Crying emoji/i,
-      level: 2,
     });
     expect(title).toBeInTheDocument();
   });
