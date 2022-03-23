@@ -1,22 +1,11 @@
+import './styles/App.css';
+
 import React, { Component } from 'react';
-import { Switch, Route, Link } from 'react-router-dom';
+import { Link, Route, Switch } from 'react-router-dom';
 
-import {
-  About,
-  FavoritePokemons,
-  NotFound,
-  Pokedex,
-  PokemonDetails,
-} from './components';
-
-import {
-  readFavoritePokemonIds,
-  updateFavoritePokemons,
-} from './services/pokedexService';
-
+import { About, FavoritePokemons, NotFound, Pokedex, PokemonDetails } from './components';
 import pokemons from './data';
-
-import './App.css';
+import { readFavoritePokemonIds, updateFavoritePokemons } from './services/pokedexService';
 
 class App extends Component {
   static setIsPokemonFavoriteById() {
@@ -37,18 +26,13 @@ class App extends Component {
   onUpdateFavoritePokemons(pokemonId, isFavorite) {
     updateFavoritePokemons(pokemonId, isFavorite);
 
-    this.setState(({ isPokemonFavoriteById: App.setIsPokemonFavoriteById() }));
+    this.setState({ isPokemonFavoriteById: App.setIsPokemonFavoriteById() });
   }
 
   renderPokedex() {
     const { isPokemonFavoriteById } = this.state;
 
-    return (
-      <Pokedex
-        pokemons={ pokemons }
-        isPokemonFavoriteById={ isPokemonFavoriteById }
-      />
-    );
+    return <Pokedex pokemons={pokemons} isPokemonFavoriteById={isPokemonFavoriteById} />;
   }
 
   renderPokemonDetails(match) {
@@ -56,12 +40,12 @@ class App extends Component {
 
     return (
       <PokemonDetails
-        isPokemonFavoriteById={ isPokemonFavoriteById }
-        match={ match }
-        pokemons={ pokemons }
-        onUpdateFavoritePokemons={ (pokemonId, isFavorite) => (
+        isPokemonFavoriteById={isPokemonFavoriteById}
+        match={match}
+        pokemons={pokemons}
+        onUpdateFavoritePokemons={(pokemonId, isFavorite) =>
           this.onUpdateFavoritePokemons(pokemonId, isFavorite)
-        ) }
+        }
       />
     );
   }
@@ -72,21 +56,17 @@ class App extends Component {
 
     return (
       <Switch>
-        <Route
-          exact
-          path="/"
-          render={ ({ match }) => this.renderPokedex(match) }
-        />
+        <Route exact path="/" render={({ match }) => this.renderPokedex(match)} />
         <Route
           path="/pokemons/:id"
-          render={ ({ match }) => this.renderPokemonDetails(match) }
+          render={({ match }) => this.renderPokemonDetails(match)}
         />
         <Route
           path="/favorites"
-          render={ () => <FavoritePokemons pokemons={ favoritePokemons } /> }
+          render={() => <FavoritePokemons pokemons={favoritePokemons} />}
         />
-        <Route path="/about" component={ About } />
-        <Route component={ NotFound } />
+        <Route path="/about" component={About} />
+        <Route component={NotFound} />
       </Switch>
     );
   }

@@ -1,4 +1,4 @@
-import './pokedex.css';
+import '../styles/pokedex.css';
 
 import PropTypes from 'prop-types';
 import React from 'react';

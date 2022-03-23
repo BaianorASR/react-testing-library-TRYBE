@@ -1,20 +1,14 @@
-import React from 'react';
+import '../styles/button.css';
+
 import PropTypes from 'prop-types';
+import React from 'react';
 
-import './button.css';
-
-const Button = ({
-  className,
-  children,
-  disabled,
-  onClick,
-  dataTestId,
-}) => (
+const Button = ({ className, children, disabled, onClick, dataTestId }) => (
   <button
-    onClick={ onClick }
-    className={ `button-text ${className}` }
-    disabled={ disabled }
-    data-testid={ dataTestId }
+    onClick={onClick}
+    className={`button-text ${className}`}
+    disabled={disabled}
+    data-testid={dataTestId}
     type="button"
   >
     {children}

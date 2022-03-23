@@ -1,10 +1,10 @@
-import React from 'react';
+import '../styles/favorite-pokemons.css';
+
 import PropTypes from 'prop-types';
+import React from 'react';
 
 import { pokemonType } from '../types';
 import Pokemon from './Pokemon';
-
-import './favorite-pokemons.css';
 
 const ZERO = 0;
 
@@ -12,15 +12,15 @@ class FavoritePokemons extends React.Component {
   static notFound() {
     return (
       <div>
-        <p>{ `No favorite pokemon found` }</p>
+        <p>{`No favorite pokemon found`}</p>
       </div>
     );
   }
 
   static renderFavoritePokemon(pokemon) {
     return (
-      <div key={ pokemon.id } className="favorite-pokemon">
-        <Pokemon pokemon={ pokemon } isFavorite />
+      <div key={pokemon.id} className="favorite-pokemon">
+        <Pokemon pokemon={pokemon} isFavorite />
       </div>
     );
   }
@@ -31,7 +31,7 @@ class FavoritePokemons extends React.Component {
 
     return (
       <div className="favorite-pokemons">
-        { pokemons.map((pokemon) => renderFavoritePokemon(pokemon)) }
+        {pokemons.map((pokemon) => renderFavoritePokemon(pokemon))}
       </div>
     );
   }
@@ -44,7 +44,7 @@ class FavoritePokemons extends React.Component {
     return (
       <div>
         <h2>Favorite pokémons</h2>
-        { isEmpty ? notFound() : this.renderFavoritePokemons() }
+        {isEmpty ? notFound() : this.renderFavoritePokemons()}
       </div>
     );
   }
